@@ -5,6 +5,7 @@ from pathlib import Path
 import cv2
 import torch
 import torch.backends.cudnn as cudnn
+import numpy as np
 from numpy import random
 
 from models.experimental import attempt_load
@@ -100,8 +101,42 @@ def detect(save_img=False):
                     n = (det[:, -1] == c).sum()  # detections per class
                     s += f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string
 
-                # Write results
+                # Get max_bbox
+                count, max_vol, max_idx = 0, 0.0, 0
+                max_box = np.zeros((1, 4), dtype = float)
                 for *xyxy, conf, cls in reversed(det):
+                    res, coor = [],[]
+                    # xyxy to numpy
+                    for i in xyxy:
+                        coor.append(i.numpy())
+                    res.append(coor)
+                    res = np.array(res, dtype=float)
+                    #print(res)
+                    #print(res.shape)
+                    vol = (res[0,2] - res[0,0]) * (res[0,3] - res[0,1])
+                    label = f'{names[int(cls)]} {conf:.2f}'
+                    if opt.heads or opt.person:
+                       if 'head' in label and opt.heads:
+                           if vol > max_vol and opt.heads :
+                               max_vol = vol
+                               max_idx = count 
+                               max_box = res
+                    count+=1
+                
+                # get image to add
+                carrot = cv2.imread("carrot.png")
+
+                # Write results
+                count = 0
+                for *xyxy, conf, cls in reversed(det):
+                    res, coor = [],[]
+                    # xyxy to numpy
+                    for i in xyxy:
+                        coor.append(i.numpy())
+                    res.append(coor)
+                    res = np.array(res, dtype=int)
+                    carrot_r = cv2.resize(carrot, (res[0,2] - res[0,0], res[0,3] - res[0,1]))
+                    
                     if save_txt:  # Write to file
                         xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
                         line = (cls, *xywh, conf) if opt.save_conf else (cls, *xywh)  # label format
@@ -111,13 +146,21 @@ def detect(save_img=False):
                     if save_img or view_img:  # Add bbox to image
                         label = f'{names[int(cls)]} {conf:.2f}'
                         if opt.heads or opt.person:
-                            if 'head' in label and opt.heads:
+                            if 'head' in label and opt.heads and count!= max_idx:
                                 plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=3)
-                            if 'person' in label and opt.person:
+                                im0[res[0,1]:res[0,3], res[0,0]:res[0,2], :] = carrot_r
+                                
+                            if 'person' in label and opt.person and count!=max_idx:
                                 plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=3)
+                                
+                                
                         else:
                             plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=3)
-
+                    #if(count == max_idx):
+                    #    plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=3)    
+                    count += 1
+                        
+                        
             # Print time (inference + NMS)
             print(f'{s}Done. ({t2 - t1:.3f}s)')
 
