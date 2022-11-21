@@ -10,7 +10,6 @@ Model Download Link:  [YOLOv5m-crowd-human](https://drive.google.com/file/d/1ggl
 $ python detect.py --weights crowdhuman_yolov5m.pt --source _test/ --view-img  --heads
 
 ```
-
 <br/><br/>
 
 **Output**
