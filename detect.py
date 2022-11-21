@@ -119,20 +119,12 @@ def detect(save_img=False):
                        if 'head' in label and opt.heads:
                            if vol > max_vol and opt.heads :
                                max_vol = vol
-<<<<<<< HEAD
                                max_idx = count
-=======
-                               max_idx = count 
->>>>>>> 08ab652665305cf9fdeca3b6daa4b901b4d25d08
                                max_box = res
                     count+=1
                 
                 # get image to add
-<<<<<<< HEAD
                 img = cv2.imread("bunny.png")
-=======
-                carrot = cv2.imread("carrot.png")
->>>>>>> 08ab652665305cf9fdeca3b6daa4b901b4d25d08
 
                 # Write results
                 count = 0
@@ -143,7 +135,6 @@ def detect(save_img=False):
                         coor.append(i.numpy())
                     res.append(coor)
                     res = np.array(res, dtype=int)
-<<<<<<< HEAD
                     img_r = cv2.resize(img, (res[0,2] - res[0,0], res[0,3] - res[0,1]))
                     img_sum = img_r[:,:,0] + img_r[:,:,1] + img_r[:,:,2]
                     mask = mask = np.where(img_sum > 0, 1, 0)
@@ -152,9 +143,6 @@ def detect(save_img=False):
                     mask_rgb[:,:,0] = mask
                     mask_rgb[:,:,1] = mask
                     mask_rgb[:,:,2] = mask
-=======
-                    carrot_r = cv2.resize(carrot, (res[0,2] - res[0,0], res[0,3] - res[0,1]))
->>>>>>> 08ab652665305cf9fdeca3b6daa4b901b4d25d08
                     
                     if save_txt:  # Write to file
                         xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
@@ -166,15 +154,10 @@ def detect(save_img=False):
                         label = f'{names[int(cls)]} {conf:.2f}'
                         if opt.heads or opt.person:
                             if 'head' in label and opt.heads and count!= max_idx:
-<<<<<<< HEAD
                                 # plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=3)
                                 
                                 im0_crop = im0[res[0,1]:res[0,3], res[0,0]:res[0,2], :]
                                 im0[res[0,1]:res[0,3], res[0,0]:res[0,2],:] = np.where(mask_rgb > 0, img_r, im0_crop)
-=======
-                                plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=3)
-                                im0[res[0,1]:res[0,3], res[0,0]:res[0,2], :] = carrot_r
->>>>>>> 08ab652665305cf9fdeca3b6daa4b901b4d25d08
                                 
                             if 'person' in label and opt.person and count!=max_idx:
                                 plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=3)
@@ -182,7 +165,6 @@ def detect(save_img=False):
                                 
                         else:
                             plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=3)
-<<<<<<< HEAD
                         
                         # print max_bbox midpoint
                         if count == max_idx:
@@ -190,10 +172,6 @@ def detect(save_img=False):
                             #print(mid)
                             print(res)
                              
-=======
-                    #if(count == max_idx):
-                    #    plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=3)    
->>>>>>> 08ab652665305cf9fdeca3b6daa4b901b4d25d08
                     count += 1
                         
                         
@@ -260,4 +238,5 @@ if __name__ == '__main__':
                 strip_optimizer(opt.weights)
         else:
             detect()
+
 
