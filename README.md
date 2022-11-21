@@ -1,6 +1,6 @@
 ##  참고한 Head & Person Detection Model 
 
-원래 model LinkL https://github.com/deepakcrk/yolov5-crowdhuman
+원래 model Link: https://github.com/deepakcrk/yolov5-crowdhuman<br/>
 Download Link:  [YOLOv5m-crowd-human](https://drive.google.com/file/d/1gglIwqxaH2iTvy6lZlXuAcMpd_U0GCUb/view?usp=sharing) 
 
 
@@ -8,7 +8,7 @@ Download Link:  [YOLOv5m-crowd-human](https://drive.google.com/file/d/1gglIwqxaH
 
 **Output **
 
-![image](https://user-images.githubusercontent.com/86834982/203069703-8484a7e4-3fe5-4a90-b9af-4a56007b871b.png){: width="70%" height="70%"}
+![image](https://user-images.githubusercontent.com/86834982/203070011-1cfcf754-b6fc-4feb-bf25-c585b08e7b72.png)
 
 <br/>
 
