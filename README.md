@@ -1,9 +1,9 @@
-##  참고한 Head & Person Detection Model 
+##  Head & Person Detection Model 
 
-원래 model Link: https://github.com/deepakcrk/yolov5-crowdhuman<br/>
-Download Link:  [YOLOv5m-crowd-human](https://drive.google.com/file/d/1gglIwqxaH2iTvy6lZlXuAcMpd_U0GCUb/view?usp=sharing) 
+Model Github Link: https://github.com/deepakcrk/yolov5-crowdhuman<br/>
+Model Download Link:  [YOLOv5m-crowd-human](https://drive.google.com/file/d/1gglIwqxaH2iTvy6lZlXuAcMpd_U0GCUb/view?usp=sharing) 
 
-
+<br/>
 ## Test
 
 ```bash
