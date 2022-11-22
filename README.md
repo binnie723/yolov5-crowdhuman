@@ -14,7 +14,7 @@ $ python detect.py --weights crowdhuman_yolov5m.pt --source _test/ --view-img  -
 
 **Output**
 
-![image](https://user-images.githubusercontent.com/86834982/203070011-1cfcf754-b6fc-4feb-bf25-c585b08e7b72.png)
+![image](https://user-images.githubusercontent.com/86834982/203203312-74f45f01-3e5c-4759-884f-4592d9f18873.png)
 
 <br/>
 
