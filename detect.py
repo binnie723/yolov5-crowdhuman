@@ -113,17 +113,18 @@ def detect(save_img=False):
                     res = np.array(res, dtype=float)
                     #print(res)
                     #print(res.shape)
-                    vol = (res[0,2] - res[0,0]) * (res[0,3] - res[0,1])
+                    vol = (res[0,2] - res[0,0]) * (res[0,3] - res[0,1])  # 이거가 바운딩 박스 넓이를 계산합니다
                     label = f'{names[int(cls)]} {conf:.2f}'
                     if opt.heads or opt.person:
                        if 'head' in label and opt.heads:
                            if vol > max_vol and opt.heads :
+                               # 여기에 가장 큰 박스를 저장합니다 
                                max_vol = vol
                                max_idx = count
                                max_box = res
                     count+=1
                 
-                # get image to add
+                # 대체할 이미지 집어 넣기 
                 img = cv2.imread("bunny.png")
 
                 # Write results
@@ -136,6 +137,7 @@ def detect(save_img=False):
                     res.append(coor)
                     res = np.array(res, dtype=int)
                     img_r = cv2.resize(img, (res[0,2] - res[0,0], res[0,3] - res[0,1]))
+                    # 당근 이미지 뒷 배경 제거하는 부분 mask
                     img_sum = img_r[:,:,0] + img_r[:,:,1] + img_r[:,:,2]
                     mask = mask = np.where(img_sum > 0, 1, 0)
                     (w, h, ) = img_sum.shape
@@ -153,10 +155,13 @@ def detect(save_img=False):
                     if save_img or view_img:  # Add bbox to image
                         label = f'{names[int(cls)]} {conf:.2f}'
                         if opt.heads or opt.person:
+                            
                             if 'head' in label and opt.heads and count!= max_idx:
                                 # plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=3)
                                 
                                 im0_crop = im0[res[0,1]:res[0,3], res[0,0]:res[0,2], :]
+                                
+                                # !! 여기서 !! 이미지가 !! 출력 됩니다 !!
                                 im0[res[0,1]:res[0,3], res[0,0]:res[0,2],:] = np.where(mask_rgb > 0, img_r, im0_crop)
                                 
                             if 'person' in label and opt.person and count!=max_idx:
@@ -166,11 +171,11 @@ def detect(save_img=False):
                         else:
                             plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=3)
                         
-                        # print max_bbox midpoint
+                        # 가장 큰 바운딩 박스 midpoint 출력하기
                         if count == max_idx:
                             mid = ((res[0,2] + res[0,0])//2, (res[0,3] + res[0,1])//2)
                             #print(mid)
-                            print(res)
+                          
                              
                     count += 1
                         
