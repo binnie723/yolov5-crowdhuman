@@ -136,6 +136,7 @@ def detect(save_img=False):
                         coor.append(i.numpy())
                     res.append(coor)
                     res = np.array(res, dtype=int)
+                    # 당근 이미지 바운딩 박스에 맞게 resizing = img_r
                     img_r = cv2.resize(img, (res[0,2] - res[0,0], res[0,3] - res[0,1]))
                     # 당근 이미지 뒷 배경 제거하는 부분 mask
                     img_sum = img_r[:,:,0] + img_r[:,:,1] + img_r[:,:,2]
@@ -162,6 +163,7 @@ def detect(save_img=False):
                                 im0_crop = im0[res[0,1]:res[0,3], res[0,0]:res[0,2], :]
                                 
                                 # !! 여기서 !! 이미지가 !! 출력 됩니다 !!
+                                # img_r를 넣는데 만약 rgb > 0 (검은색 아니면) 당근 이미지 넣고, rgb = 0 (검은색이면) 뒤에 원본 사진 가져오기 
                                 im0[res[0,1]:res[0,3], res[0,0]:res[0,2],:] = np.where(mask_rgb > 0, img_r, im0_crop)
                                 
                             if 'person' in label and opt.person and count!=max_idx:
